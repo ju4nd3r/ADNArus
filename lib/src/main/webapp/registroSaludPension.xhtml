@@ -1,0 +1,117 @@
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"	
+      xmlns:p="http://primefaces.org/ui">
+      
+      <!-- xmlns:h="http://java.sun.com/jsf/html" -->
+    <h:head>
+        <title>Registro Salud Pension</title>
+    </h:head>
+    <h:body>
+    
+		<h:form >
+			<!--    -->
+			<h:panelGrid columns="3">
+				
+	            <f:facet name="header">
+	 	 			Registro Salud Pension
+				</f:facet>
+	            
+	            <p:outputLabel for="tipoDocumento">Tipo Documento: </p:outputLabel>
+                <p:selectOneMenu id="tipoDocumento" value="#{usuarioBean.tipoDocumento}" >
+                	<p:ajax event="change" listener="#{usuarioBean.tipoDocumentoSeleccionadoListener}" />
+                	
+	               	<f:selectItem itemLabel="Tipo de Documento" itemValue="." noSelectionOption="true"/>
+	               	<f:selectItems value="#{listaDesplegableTipoDocumentoView.tiposDocumentos}"/>
+	               
+                </p:selectOneMenu>
+	            <h:message for="tipoDocumento" style="color: red"/>
+	           	
+	           	
+	           	<p:outputLabel for="numeroDocumento">Numero Documento: </p:outputLabel>
+				<p:inputText id="numeroDocumento" 
+				value="#{usuarioBean.numeroDocumento}" 
+				placeholder="Numero Documento"
+				validator="#{usuarioBean.validarNumeroDocumento}"
+				required="true" /> 
+				<h:message for="numeroDocumento" style="color: red"/>
+				
+				<p:outputLabel for="primerNombre">Primer Nombre: </p:outputLabel>
+				<p:inputText id="primerNombre" 
+				value="#{usuarioBean.primerNombre}"
+				placeholder="Primer Nombre"
+				required="true" 
+				validator="#{usuarioBean.validarNombre}"
+				label="Primer Nombre" >
+					
+				</p:inputText>
+				<h:message for="primerNombre" style="color: red"/> 
+				
+				<p:outputLabel for="segundoNombre">Segundo Nombre: </p:outputLabel>
+				<p:inputText id="segundoNombre"
+				value="#{usuarioBean.segundoNombre}"
+				placeholder="Segundo Nombre"
+				validator="#{usuarioBean.validarNombre}"
+				label="Segundo Nombre">
+					
+				</p:inputText>
+				<h:message for="segundoNombre" style="color: red"/>
+				
+				<p:outputLabel for="primerApellido">Primer Apellido: </p:outputLabel>
+				<p:inputText id="primerApellido"
+				value="#{usuarioBean.primerApellido}" 
+				placeholder="Primer Apellido"
+				required="true"
+				validator="#{usuarioBean.validarNombre}"
+				label="Primer Apellido"/> 
+				<h:message for="primerApellido" style="color: red"/>
+				
+				<p:outputLabel for="segundoApellido">Segundo Apellido: </p:outputLabel>
+				<p:inputText id="segundoApellido" 
+				placeholder="Segundo Apellido"
+				value="#{usuarioBean.segundoApellido}"
+				validator="#{usuarioBean.validarNombre}"
+				label="Segundo Apellido"/> 
+				<h:message for="segundoApellido" style="color: red"/>
+				
+				<p:outputLabel for="administradoraSalud">Administradora de Salud: </p:outputLabel>
+                <p:selectOneMenu id="administradoraSalud" value="#{usuarioBean.administradoraSalud}">
+	               <f:selectItem itemLabel="Administradora de Salud" itemValue="" noSelectionOption="true"/>
+	               <f:selectItems value="#{listaDesplegableAdministradoraSaludView.administradorasSalud}"
+	               var="administradoraSalud"  itemLabel="#{administradoraSalud.value}"/>
+                </p:selectOneMenu>
+	            <h:message for="administradoraSalud" style="color: red"/>
+	            
+	            <p:outputLabel for="fechaAfiliacionSalud">Fecha Afiliación Salud: </p:outputLabel>
+                <p:calendar  id="fechaAfiliacionSalud" 
+                placeholder="Fecha Afiliación Salud"
+                value="#{usuarioBean.fechaAfiliacionSalud}" />
+	            <h:message for="fechaAfiliacionSalud" style="color: red"/>
+	            
+	            <p:outputLabel for="administradoraPension">Administradora de Pension: </p:outputLabel>
+                <p:selectOneMenu id="administradoraPension" value="#{usuarioBean.administradoraPension}">
+	               <f:selectItem itemLabel="Administradora de Pension" itemValue="" noSelectionOption="true"/>
+	               <f:selectItems value="#{listaDesplegableAdministradoraPensionView.administradorasPension}"
+	                var="administradoraPension"  itemLabel="#{administradoraPension.value}"/>
+                </p:selectOneMenu>
+                <h:message for="administradoraPension" style="color: red"/>
+	            
+	            
+	         	<p:outputLabel for="fechaAfiliacionPension">Fecha Afilición Pensión: </p:outputLabel>
+                <p:calendar  id="fechaAfiliacionPension" value="#{usuarioBean.fechaAfiliacionPension}" />
+	            <h:message for="fechaAfiliacionPension" style="color: red"/>
+	             
+			</h:panelGrid>
+			
+			<h:commandButton value="Registrar Usuario" action="#{usuarioBean.registrarUsuario}"/>
+			<br />
+			
+			<div>
+				<p:messages></p:messages>
+			</div>
+			<h:outputText value="#{usuarioBean.resultado}" />
+		</h:form>
+		
+    </h:body>
+</html> 

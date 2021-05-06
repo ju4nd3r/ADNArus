@@ -1,0 +1,4 @@
+<Context cookies="true" crossContext="true">
+	<!-- ACTIVAR PARA FUNCIONAR CON JOSSO   
+	<Valve className="org.josso.jb5.agent.JOSSOJASPIAuthenticator" />-->
+</Context>
