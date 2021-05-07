@@ -19,7 +19,7 @@
 				</f:facet>
 	            
 	            <p:outputLabel for="tipoDocumento">Tipo Documento: </p:outputLabel>
-                <p:selectOneMenu id="tipoDocumento" value="#{usuarioBean.tipoDocumento}" >
+                <p:selectOneMenu id="tipoDocumento" value="#{usuarioBean.usuario.tipoDocumento}" >
                 	<p:ajax event="change" listener="#{usuarioBean.tipoDocumentoSeleccionadoListener}" />
                 	
 	               	<f:selectItem itemLabel="Tipo de Documento" itemValue="." noSelectionOption="true"/>
@@ -31,7 +31,7 @@
 	           	
 	           	<p:outputLabel for="numeroDocumento">Numero Documento: </p:outputLabel>
 				<p:inputText id="numeroDocumento" 
-				value="#{usuarioBean.numeroDocumento}" 
+				value="#{usuarioBean.usuario.numeroDocumento}" 
 				placeholder="Numero Documento"
 				validator="#{usuarioBean.validarNumeroDocumento}"
 				required="true" /> 
@@ -39,7 +39,7 @@
 				
 				<p:outputLabel for="primerNombre">Primer Nombre: </p:outputLabel>
 				<p:inputText id="primerNombre" 
-				value="#{usuarioBean.primerNombre}"
+				value="#{usuarioBean.usuario.primerNombre}"
 				placeholder="Primer Nombre"
 				required="true" 
 				validator="#{usuarioBean.validarNombre}"
@@ -50,7 +50,7 @@
 				
 				<p:outputLabel for="segundoNombre">Segundo Nombre: </p:outputLabel>
 				<p:inputText id="segundoNombre"
-				value="#{usuarioBean.segundoNombre}"
+				value="#{usuarioBean.usuario.segundoNombre}"
 				placeholder="Segundo Nombre"
 				validator="#{usuarioBean.validarNombre}"
 				label="Segundo Nombre">
@@ -60,7 +60,7 @@
 				
 				<p:outputLabel for="primerApellido">Primer Apellido: </p:outputLabel>
 				<p:inputText id="primerApellido"
-				value="#{usuarioBean.primerApellido}" 
+				value="#{usuarioBean.usuario.primerApellido}" 
 				placeholder="Primer Apellido"
 				required="true"
 				validator="#{usuarioBean.validarNombre}"
@@ -70,13 +70,14 @@
 				<p:outputLabel for="segundoApellido">Segundo Apellido: </p:outputLabel>
 				<p:inputText id="segundoApellido" 
 				placeholder="Segundo Apellido"
-				value="#{usuarioBean.segundoApellido}"
+				value="#{usuarioBean.usuario.segundoApellido}"
 				validator="#{usuarioBean.validarNombre}"
 				label="Segundo Apellido"/> 
 				<h:message for="segundoApellido" style="color: red"/>
 				
 				<p:outputLabel for="administradoraSalud">Administradora de Salud: </p:outputLabel>
-                <p:selectOneMenu id="administradoraSalud" value="#{usuarioBean.administradoraSalud}">
+                <p:selectOneMenu id="administradoraSalud" 
+                value="#{usuarioBean.usuario.administradoraSalud}">
 	               <f:selectItem itemLabel="Administradora de Salud" itemValue="" noSelectionOption="true"/>
 	               <f:selectItems value="#{listaDesplegableAdministradoraSaludView.administradorasSalud}"
 	               var="administradoraSalud"  itemLabel="#{administradoraSalud.value}"/>
@@ -86,12 +87,14 @@
 	            <p:outputLabel for="fechaAfiliacionSalud">Fecha Afiliación Salud: </p:outputLabel>
                 <p:calendar  id="fechaAfiliacionSalud" 
                 placeholder="Fecha Afiliación Salud"
-                value="#{usuarioBean.fechaAfiliacionSalud}" />
+                value="#{usuarioBean.usuario.fechaAfiliacionSalud}" />
 	            <h:message for="fechaAfiliacionSalud" style="color: red"/>
 	            
 	            <p:outputLabel for="administradoraPension">Administradora de Pension: </p:outputLabel>
-                <p:selectOneMenu id="administradoraPension" value="#{usuarioBean.administradoraPension}">
-	               <f:selectItem itemLabel="Administradora de Pension" itemValue="" noSelectionOption="true"/>
+                <p:selectOneMenu id="administradoraPension" 
+                value="#{usuarioBean.usuario.administradoraPension}">
+	               <f:selectItem itemLabel="Administradora de Pension" itemValue="" 
+	               noSelectionOption="true"/>
 	               <f:selectItems value="#{listaDesplegableAdministradoraPensionView.administradorasPension}"
 	                var="administradoraPension"  itemLabel="#{administradoraPension.value}"/>
                 </p:selectOneMenu>
@@ -99,7 +102,8 @@
 	            
 	            
 	         	<p:outputLabel for="fechaAfiliacionPension">Fecha Afilición Pensión: </p:outputLabel>
-                <p:calendar  id="fechaAfiliacionPension" value="#{usuarioBean.fechaAfiliacionPension}" />
+                <p:calendar  id="fechaAfiliacionPension" 
+                value="#{usuarioBean.usuario.fechaAfiliacionPension}" />
 	            <h:message for="fechaAfiliacionPension" style="color: red"/>
 	             
 			</h:panelGrid>

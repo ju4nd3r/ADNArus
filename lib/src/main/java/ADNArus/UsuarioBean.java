@@ -1,7 +1,7 @@
 package ADNArus;
 
-import java.util.Date;
-
+import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -22,101 +22,48 @@ public class UsuarioBean {
 	private static final String SOLO_SE_PERMITEN_NUMEROS_LETRAS_Y_MAXIMO_14_CARACTERES = "Solo se permiten numeros, letras y maximo 14 caracteres";
 	private static final String SOLO_SE_PERMITEN_NUMEROS = "Solo se permiten numeros";
 	
+	@EJB
+	private UsuarioService usuarioService;
 	
-	private TipoDocumento tipoDocumento;
-	private String numeroDocumento;
-	
-	private String primerNombre;
-	private String segundoNombre;
-	private String primerApellido;
-	private String segundoApellido;
-	private String administradoraSalud;
-	private Date fechaAfiliacionSalud;
-	private String administradoraPension;
-	private Date fechaAfiliacionPension;
-	
+	private Usuario usuario;
+		
 	private String resultado;
 	
-	
-	public TipoDocumento getTipoDocumento() {
-		return tipoDocumento;
-	}
-	public void setTipoDocumento(TipoDocumento tipoDocumento) {
-		this.tipoDocumento = tipoDocumento;
+	@PostConstruct
+	public void init() {
+		this.usuario = new Usuario();
 	}
 	
-	public String getNumeroDocumento() {
-		return numeroDocumento;
-	}
-	public void setNumeroDocumento(String numeroDocumento) {
-		this.numeroDocumento = numeroDocumento;
-	}
-	public String getPrimerNombre() {
-		return primerNombre;
-	}
-	public void setPrimerNombre(String primerNombre) {
-		this.primerNombre = primerNombre;
-	}
-	public String getSegundoNombre() {
-		return segundoNombre;
-	}
-	public void setSegundoNombre(String segundoNombre) {
-		this.segundoNombre = segundoNombre;
-	}
-	public String getPrimerApellido() {
-		return primerApellido;
-	}
-	public void setPrimerApellido(String primerApellido) {
-		this.primerApellido = primerApellido;
-	}
-	public String getSegundoApellido() {
-		return segundoApellido;
-	}
-	public void setSegundoApellido(String segundoApellido) {
-		this.segundoApellido = segundoApellido;
+	public Usuario getUsuario() {
+		return usuario;
 	}
 
-	public String getAdministradoraSalud() {
-		return administradoraSalud;
-	}
-	public void setAdministradoraSalud(String administradoraSalud) {
-		this.administradoraSalud = administradoraSalud;
-	}
-	public Date getFechaAfiliacionSalud() {
-		return fechaAfiliacionSalud;
-	}
-	public void setFechaAfiliacionSalud(Date fechaAfiliacionSalud) {
-		this.fechaAfiliacionSalud = fechaAfiliacionSalud;
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 	
-	public String getAdministradoraPension() {
-		return administradoraPension;
-	}
-	public void setAdministradoraPension(String administradoraPension) {
-		this.administradoraPension = administradoraPension;
-	}
-	public Date getFechaAfiliacionPension() {
-		return fechaAfiliacionPension;
-	}
-	public void setFechaAfiliacionPension(Date fechaAfiliacionPension) {
-		this.fechaAfiliacionPension = fechaAfiliacionPension;
-	}
 	public String getResultado() {
 		return resultado;
 	}
+
 	public void setResultado(String resultado) {
 		this.resultado = resultado;
 	}
-	
+
 	public void tipoDocumentoSeleccionadoListener(AjaxBehaviorEvent evento) {
 		SelectOneMenu componente = (SelectOneMenu) evento.getComponent();
-		this.tipoDocumento =  (TipoDocumento) componente.getValue();
+		this.usuario.setTipoDocumento ( (TipoDocumento) componente.getValue() );
 	}
 	
+	
 	public void registrarUsuario() {
-		resultado = "Se crea el usuario identificado con: " + tipoDocumento + ": " + numeroDocumento;
-		System.out.println(resultado);
+		resultado= "Se crea el usuario identificado con: " + 
+				usuario.getTipoDocumento() + ": " + 
+				usuario.getNumeroDocumento();
+		
+		usuarioService.registrarUsuario( this.usuario );
 	}
+	
 	
 	public void validarNombre(FacesContext context, UIComponent component, Object valor)  
 			throws ValidatorException{
@@ -131,15 +78,16 @@ public class UsuarioBean {
 		}
 	}
 	
+	
 	public void validarNumeroDocumento(FacesContext context, UIComponent component, Object valor)  
 			throws ValidatorException{
 		String numeroDocumento = (String) valor;
 		
 		System.out.println("Validando el numero de documento "+ numeroDocumento +
-				" dependiendo del Tipo "+ tipoDocumento + " nombre: " + primerNombre);
+				" dependiendo del Tipo "+ usuario.getTipoDocumento() + " nombre: " + usuario.getPrimerNombre());
 		
 		//Si el numero de documento es cedula de ciudadania
-		if(tipoDocumento == TipoDocumento.CC) {
+		if(usuario.getTipoDocumento() == TipoDocumento.CC) {
 			System.out.println("Validando la cedula "+ numeroDocumento);
 			if(numeroDocumento.length() > 10) {
 				 
@@ -160,7 +108,7 @@ public class UsuarioBean {
 		}
 		
 		//Si el numero de documento es cedula de extranjeria
-		if(tipoDocumento == TipoDocumento.CE) {
+		if(usuario.getTipoDocumento() == TipoDocumento.CE) {
 			System.out.println("Validando la cedula de extrajeria "+ numeroDocumento);
 			if(numeroDocumento.length() > 14) {
 				throw new ValidatorException( 
@@ -181,7 +129,9 @@ public class UsuarioBean {
 		}
 		
 		//Si el numero de documento es Registro Civil o tarjeta de identidad
-		if(tipoDocumento == TipoDocumento.RC || tipoDocumento == TipoDocumento.TI) {
+		if(usuario.getTipoDocumento() == TipoDocumento.RC || 
+				usuario.getTipoDocumento() == TipoDocumento.TI) {
+			
 			System.out.println("Validando el RC o TI "+ numeroDocumento);
 			for (int i = 0; i < numeroDocumento.length(); i++) {
 				if( !Character.isDigit( numeroDocumento.charAt( i ) ) ) {
