@@ -1,0 +1,29 @@
+package rules
+ 
+import ADNArus.Usuario
+import ADNArus.TipoDocumento
+import org.apache.commons.lang3.time.DateUtils
+
+global ADNArus.UsuarioBean usuarioBean
+
+rule "Criterio 1"
+	when 
+		usuario: Usuario(administradoraPension == "AFP003" && fechaAfiliacionPension < DateUtils.parseDate("31/12/2020","dd/MM/yyyy"))
+	then
+		usuarioBean.agregarMensajeErrorVista("Para la administradora de pensión AFP003 solo es posible afiliarse después de 2020/12/31");
+		
+	end
+	
+rule "Criterio 2"
+	when 
+		usuario: Usuario(tipoDocumento == TipoDocumento.RC && (administradoraSalud == "EPS003" || administradoraSalud == "EPS004" ))
+	then
+		usuarioBean.agregarMensajeErrorVista("Para una persona con tipo de documento RC Registro civil no es permitido afiliarse a las EPS: EPS003, EPS004");		
+	end
+
+rule "Criterio 3"
+	when 
+		usuario: Usuario(administradoraSalud == "EPS002" && administradoraPension != "AFP001" )
+	then
+		usuarioBean.agregarMensajeErrorVista("Las personas que se afilien a la administradora EPS002 Sura EPS solo pueden afiliarse a la administradora de pensión AFP001 Protección");		
+	end

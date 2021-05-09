@@ -1,5 +1,8 @@
 package ADNArus;
 
+import java.text.ParseException;
+import java.util.Date;
+
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -10,6 +13,10 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.validator.ValidatorException;
 
+import org.apache.commons.lang3.time.DateUtils;
+import org.kie.api.KieServices;
+import org.kie.api.runtime.KieContainer;
+import org.kie.api.runtime.KieSession;
 import org.primefaces.component.selectonemenu.SelectOneMenu;
 
 
@@ -21,6 +28,9 @@ public class UsuarioBean {
 	private static final String SOLO_SE_PERMITEN_NUMEROS_Y_MAXIMO_10_CARACTERES = "Solo se permiten numeros y m�ximo 10 caracteres";
 	private static final String SOLO_SE_PERMITEN_NUMEROS_LETRAS_Y_MAXIMO_14_CARACTERES = "Solo se permiten numeros, letras y maximo 14 caracteres";
 	private static final String SOLO_SE_PERMITEN_NUMEROS = "Solo se permiten numeros";
+	private static final String EL_REGISTRO_HA_SIDO_EXITOSO = "El registro ha sido exitoso";
+	
+	
 	
 	@EJB
 	private UsuarioService usuarioService;
@@ -32,6 +42,7 @@ public class UsuarioBean {
 	@PostConstruct
 	public void init() {
 		this.usuario = new Usuario();
+		
 	}
 	
 	public Usuario getUsuario() {
@@ -57,11 +68,35 @@ public class UsuarioBean {
 	
 	
 	public void registrarUsuario() {
-		resultado= "Se crea el usuario identificado con: " + 
-				usuario.getTipoDocumento() + ": " + 
-				usuario.getNumeroDocumento();
+		this.resultado = "";
+		
+		try {
+		
+		
+		KieServices ks = KieServices.Factory.get();
+		KieContainer kContainer = ks.getKieClasspathContainer();
+		//Get the session named kseesion-rule that we defined in kmodule.xml above.
+		//Also by default the session returned is always stateful. 
+		KieSession kSession = kContainer.newKieSession("ksession-rule");
+		kSession.setGlobal("usuarioBean", this);
+		
+		kSession.insert(usuario);
+		
+		kSession.fireAllRules();
+		
+		if(!resultado.trim().equals("")) throw new Exception();
 		
 		usuarioService.registrarUsuario( this.usuario );
+		
+		agregarMensajeInformativoVista(EL_REGISTRO_HA_SIDO_EXITOSO);
+		
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			System.out.println(resultado);
+		}
+
 	}
 	
 	
@@ -77,8 +112,7 @@ public class UsuarioBean {
 			}
 		}
 	}
-	
-	
+		
 	public void validarNumeroDocumento(FacesContext context, UIComponent component, Object valor)  
 			throws ValidatorException{
 		String numeroDocumento = (String) valor;
@@ -143,6 +177,23 @@ public class UsuarioBean {
 			}
 		}
 		
+		
+		
+	}
+	
+	public void agregarMensaje(String mensaje) {
+		
+	}
+	
+	public void agregarMensajeErrorVista(String mensaje) {
+		this.resultado += mensaje + "\n";
+		FacesContext context = FacesContext.getCurrentInstance();
+		context.addMessage( null , new FacesMessage(FacesMessage.SEVERITY_ERROR,mensaje, null));
+	}
+	
+	public void agregarMensajeInformativoVista(String mensaje) {
+		FacesContext context = FacesContext.getCurrentInstance();
+		context.addMessage( null , new FacesMessage(FacesMessage.SEVERITY_INFO,mensaje, null));
 	}
 	
 

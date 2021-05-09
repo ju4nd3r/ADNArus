@@ -16,6 +16,9 @@ apply plugin: 'eclipse-wtp'
 	'org.jboss.spec.javax.servlet.jsp:jboss-jsp-api_2.2_spec:1.0.2.Final'
 ]*/
 
+ext {
+    droolsVersion = "6.3.0.Final"
+}
 
 sourceCompatibility = '1.7'
 
@@ -35,6 +38,10 @@ eclipse {
 repositories {
     // Use JCenter for resolving dependencies.
     mavenCentral()
+    
+    maven {
+        url 'https://repository.jboss.org/nexus/content/groups/public/'
+    }
 }
 
 
@@ -49,6 +56,11 @@ dependencies {
     providedCompile 'javax:javaee-api:7.0'
     
     //implementation project.ext["org.jboss"]
+    compile("org.kie:kie-api:${droolsVersion}")
+    compile("org.drools:drools-core:${droolsVersion}")
+    compile("org.drools:drools-compiler:${droolsVersion}")
+    
+    implementation 'org.apache.commons:commons-lang3:3.0';
     
     //para corregir el error al momento de ejecutar las validaciones: (javax.validation.ValidationException: Unable to create a Configuration, because no Bean Validation provider could be found. Add a provider like Hibernate Validator (RI) to your classpath.)
     implementation 'org.hibernate:hibernate-validator:5.2.4.Final'

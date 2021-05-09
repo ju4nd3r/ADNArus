@@ -2,7 +2,15 @@ package ADNArus;
 
 import java.util.Date;
 
+import org.apache.commons.lang3.time.DateUtils;
+
+
+
+
+
 public class Usuario {
+	
+	
 
 	private TipoDocumento tipoDocumento;
 	private String numeroDocumento;
