@@ -1,4 +1,4 @@
-package ADNArus;
+package com.ceiba.usuario;
 
 public class AdministradoraPension extends Administradora {
 

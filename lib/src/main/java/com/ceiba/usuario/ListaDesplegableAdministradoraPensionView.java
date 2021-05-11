@@ -1,4 +1,4 @@
-package ADNArus;
+package com.ceiba.usuario;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,7 +17,7 @@ public class ListaDesplegableAdministradoraPensionView {
 	public void init() {
 		administradorasPension = new HashMap<String , String>();
 		
-		administradorasPension.put("AFP001", "Protección");
+		administradorasPension.put("AFP001", "Protecciï¿½n");
 		administradorasPension.put("AFP002", "Porvenir");
 		administradorasPension.put("AFP003", "Colpensiones");
 		

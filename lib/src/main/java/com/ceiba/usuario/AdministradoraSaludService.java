@@ -1,4 +1,4 @@
-package ADNArus;
+package com.ceiba.usuario;
 
 import java.util.ArrayList;
 import java.util.List;

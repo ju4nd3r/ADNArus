@@ -7,30 +7,49 @@
       <!-- xmlns:h="http://java.sun.com/jsf/html" -->
     <h:head>
         <title>Registro Salud Pension</title>
+        <meta charset="UTF-8" ></meta>
+        <meta http-equiv="Content-Type" content="text/html;charset=UTF8" ></meta>
+        
         <style>
+        
+	        *{
+	
+	        	background-color: eceff1;
+	        }
         	.ui-panelgrid td {
-        	border-style: hidden;
-        	padding: 10px;
+	        	border-style: hidden;
+	        	padding: 10px;
+        	    background-color: babdbe;
+        	}
+        	
+        	label, .ui-outputlabel-rfi {
+        		background-color: babdbe;
         	}
         	
         	.ui-widget-header td{
         		padding: 20px;
-        		    background-image: linear-gradient(180deg, mediumaquamarine, #f9f9f9f5);
+        		    /*background-image: linear-gradient(180deg, mediumaquamarine, #f9f9f9f5);*/
+        		    background-image: linear-gradient(180deg, #e8eaf6, #e8eaf6);
         	}
         	
         	.commandButton {
-        	padding: 10px;
-		    font-family: Arial, sans-serif;
-		    font-size: 1em;
-		    border-radius: 10px;
-		    border: solid 1px;
-		    margin-top: 15px;
+       			padding: 10px;
+			    font-family: Arial, sans-serif;
+			    font-size: 1em;
+			    border-radius: 10px;
+			    border: solid 1px;
+			    margin-top: 15px;
         	}
+        	
+        	.ui-selectonemenu.ui-widget.ui-state-default.ui-corner-all.ui-helper-clearfix {
+        	 	width: 225px;	
+        	 } 
         </style>
+        
     </h:head>
     <h:body>
     
-		<h:form style="text-align: -webkit-center;">
+		<h:form id="formulario" style="text-align: -webkit-center;">
 			<p:panelGrid columns="3" >
 				
 	            <f:facet name="header">
@@ -38,11 +57,9 @@
 				</f:facet>
 	            
 	            <p:outputLabel for="tipoDocumento">Tipo Documento: </p:outputLabel>
-                <p:selectOneMenu id="tipoDocumento" value="#{usuarioBean.usuario.tipoDocumento}" 
+                <p:selectOneMenu id="tipoDocumento" value="#{usuarioBean.usuario.tipoDocumento}" style="width: 225px;"
                 effect="fold">
                 	<p:ajax event="change" listener="#{usuarioBean.tipoDocumentoSeleccionadoListener}" />
-                	
-	               	<f:selectItem itemLabel="Tipo de Documento" itemValue="." noSelectionOption="true"/>
 	               	<f:selectItems value="#{listaDesplegableTipoDocumentoView.tiposDocumentos}"/>
 	               
                 </p:selectOneMenu>
@@ -96,8 +113,7 @@
 				
 				<p:outputLabel for="administradoraSalud">Administradora de Salud: </p:outputLabel>
                 <p:selectOneMenu id="administradoraSalud" 
-                value="#{usuarioBean.usuario.administradoraSalud}">
-	               <f:selectItem itemLabel="Administradora de Salud" itemValue="" noSelectionOption="true"/>
+                value="#{usuarioBean.usuario.administradoraSalud}" style="width: 225px;" effect="fold">
 	               <f:selectItems 
 	               value="#{listaDesplegableAdministradoraSaludView.administradorasSalud.entrySet()}"
 	               var="administradoraSalud"  itemLabel="#{administradoraSalud.value}"
@@ -114,9 +130,7 @@
 	            
 	            <p:outputLabel for="administradoraPension">Administradora de Pension: </p:outputLabel>
                 <p:selectOneMenu id="administradoraPension" 
-                value="#{usuarioBean.usuario.administradoraPension}">
-	               <f:selectItem itemLabel="Administradora de Pension" itemValue="" 
-	               noSelectionOption="true"/>
+                value="#{usuarioBean.usuario.administradoraPension}" style="width: 225px;" effect="fold">
 	               <f:selectItems 
 	               value="#{listaDesplegableAdministradoraPensionView.administradorasPension.entrySet()}"
 	               var="administradoraPension"  itemLabel="#{administradoraPension.value}"

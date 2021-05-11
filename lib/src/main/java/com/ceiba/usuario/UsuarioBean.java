@@ -1,7 +1,6 @@
-package ADNArus;
+package com.ceiba.usuario;
 
 import java.text.ParseException;
-import java.util.Date;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -13,10 +12,6 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.validator.ValidatorException;
 
-import org.apache.commons.lang3.time.DateUtils;
-import org.kie.api.KieServices;
-import org.kie.api.runtime.KieContainer;
-import org.kie.api.runtime.KieSession;
 import org.primefaces.component.selectonemenu.SelectOneMenu;
 
 
@@ -71,30 +66,17 @@ public class UsuarioBean {
 		this.resultado = "";
 		
 		try {
-		
-		
-		KieServices ks = KieServices.Factory.get();
-		KieContainer kContainer = ks.getKieClasspathContainer();
-		//Get the session named kseesion-rule that we defined in kmodule.xml above.
-		//Also by default the session returned is always stateful. 
-		KieSession kSession = kContainer.newKieSession("ksession-rule");
-		kSession.setGlobal("usuarioBean", this);
-		
-		kSession.insert(usuario);
-		
-		kSession.fireAllRules();
-		
-		if(!resultado.trim().equals("")) throw new Exception();
-		
-		usuarioService.registrarUsuario( this.usuario );
-		
-		agregarMensajeInformativoVista(EL_REGISTRO_HA_SIDO_EXITOSO);
+
+			
+			usuarioService.registrarUsuario( this.usuario );
+			
+			agregarMensajeInformativoVista(EL_REGISTRO_HA_SIDO_EXITOSO);
 		
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		} catch (Exception e) {
-			System.out.println(resultado);
+			mostrarMensajeErrorVista(e.getMessage());
 		}
 
 	}
@@ -117,12 +99,8 @@ public class UsuarioBean {
 			throws ValidatorException{
 		String numeroDocumento = (String) valor;
 		
-		System.out.println("Validando el numero de documento "+ numeroDocumento +
-				" dependiendo del Tipo "+ usuario.getTipoDocumento() + " nombre: " + usuario.getPrimerNombre());
-		
 		//Si el numero de documento es cedula de ciudadania
 		if(usuario.getTipoDocumento() == TipoDocumento.CC) {
-			System.out.println("Validando la cedula "+ numeroDocumento);
 			if(numeroDocumento.length() > 10) {
 				 
 				throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR,
@@ -143,7 +121,6 @@ public class UsuarioBean {
 		
 		//Si el numero de documento es cedula de extranjeria
 		if(usuario.getTipoDocumento() == TipoDocumento.CE) {
-			System.out.println("Validando la cedula de extrajeria "+ numeroDocumento);
 			if(numeroDocumento.length() > 14) {
 				throw new ValidatorException( 
 						new FacesMessage(FacesMessage.SEVERITY_ERROR,
@@ -166,7 +143,6 @@ public class UsuarioBean {
 		if(usuario.getTipoDocumento() == TipoDocumento.RC || 
 				usuario.getTipoDocumento() == TipoDocumento.TI) {
 			
-			System.out.println("Validando el RC o TI "+ numeroDocumento);
 			for (int i = 0; i < numeroDocumento.length(); i++) {
 				if( !Character.isDigit( numeroDocumento.charAt( i ) ) ) {
 					throw new ValidatorException( 
@@ -181,9 +157,7 @@ public class UsuarioBean {
 		
 	}
 	
-	public void agregarMensaje(String mensaje) {
-		
-	}
+
 	
 	public void agregarMensajeErrorVista(String mensaje) {
 		this.resultado += mensaje + "\n";
@@ -194,6 +168,15 @@ public class UsuarioBean {
 	public void agregarMensajeInformativoVista(String mensaje) {
 		FacesContext context = FacesContext.getCurrentInstance();
 		context.addMessage( null , new FacesMessage(FacesMessage.SEVERITY_INFO,mensaje, null));
+	}
+	
+	public void mostrarMensajeErrorVista(String mensajeExcepcion) {
+		String[] mensajesExcepcion = mensajeExcepcion.split("\n");
+		
+		for (int i = 0; i < mensajesExcepcion.length; i++) {
+			FacesContext context = FacesContext.getCurrentInstance();
+			context.addMessage( null , new FacesMessage(FacesMessage.SEVERITY_ERROR,mensajesExcepcion[i], null));
+		}
 	}
 	
 
