@@ -20,7 +20,7 @@ import org.primefaces.component.selectonemenu.SelectOneMenu;
 public class UsuarioBean {
 
 	private static final String SOLO_SE_PERMITEN_LETRAS = "Solo se permiten letras";
-	private static final String SOLO_SE_PERMITEN_NUMEROS_Y_MAXIMO_10_CARACTERES = "Solo se permiten numeros y m�ximo 10 caracteres";
+	private static final String SOLO_SE_PERMITEN_NUMEROS_Y_MAXIMO_10_CARACTERES = "Solo se permiten numeros y maximo 10 caracteres";
 	private static final String SOLO_SE_PERMITEN_NUMEROS_LETRAS_Y_MAXIMO_14_CARACTERES = "Solo se permiten numeros, letras y maximo 14 caracteres";
 	private static final String SOLO_SE_PERMITEN_NUMEROS = "Solo se permiten numeros";
 	private static final String EL_REGISTRO_HA_SIDO_EXITOSO = "El registro ha sido exitoso";

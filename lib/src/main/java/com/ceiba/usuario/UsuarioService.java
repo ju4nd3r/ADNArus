@@ -1,6 +1,8 @@
 package com.ceiba.usuario;
 
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 
 import org.kie.api.KieServices;
 import org.kie.api.runtime.KieContainer;
@@ -9,6 +11,11 @@ import org.kie.api.runtime.KieSession;
 @Stateless
 public class UsuarioService {
 
+	
+	@EJB
+	private UsuarioServiceRestClient usuarioServiceRestClient;
+	
+	
 	private String mensajeExcepcion;
 	
 	public void registrarUsuario( Usuario usuario ) throws Exception{
@@ -29,6 +36,8 @@ public class UsuarioService {
 		
 		if(!this.mensajeExcepcion.trim().equals("")) throw new Exception(this.mensajeExcepcion);
 		
+		
+		usuarioServiceRestClient.registrarUsuario(usuario);
 		
 		String resultado = "Se crea el usuario identificado con: " + 
 				usuario.getTipoDocumento() + ": " + 

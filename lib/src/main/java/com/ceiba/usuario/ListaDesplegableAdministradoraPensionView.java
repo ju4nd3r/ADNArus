@@ -17,7 +17,7 @@ public class ListaDesplegableAdministradoraPensionView {
 	public void init() {
 		administradorasPension = new HashMap<String , String>();
 		
-		administradorasPension.put("AFP001", "Protecci�n");
+		administradorasPension.put("AFP001", "Proteccion");
 		administradorasPension.put("AFP002", "Porvenir");
 		administradorasPension.put("AFP003", "Colpensiones");
 		

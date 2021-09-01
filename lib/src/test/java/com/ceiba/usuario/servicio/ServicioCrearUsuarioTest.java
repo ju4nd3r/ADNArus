@@ -1,6 +1,5 @@
 package com.ceiba.usuario.servicio;
 
-import static org.junit.Assert.fail;
 
 import java.text.ParseException;
 
@@ -47,7 +46,6 @@ public class ServicioCrearUsuarioTest {
 			Assert.assertTrue(e.getMessage().equals("Para la administradora de pensión AFP003 solo es posible afiliarse después de 2020/12/31"));
 			
 		}
-		
 
 	}
 	

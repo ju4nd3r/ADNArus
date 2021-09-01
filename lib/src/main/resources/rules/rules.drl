@@ -10,7 +10,7 @@ rule "Criterio 1"
 	when 
 		usuario: Usuario(administradoraPension == "AFP003" && fechaAfiliacionPension < DateUtils.parseDate("31/12/2020","dd/MM/yyyy"))
 	then
-		usuarioService.agregarMensajeExcepcion("Para la administradora de pensión AFP003 solo es posible afiliarse después de 2020/12/31");
+		usuarioService.agregarMensajeExcepcion("Para la administradora de pension AFP003 solo es posible afiliarse despues de 2020/12/31");
 		
 	end
 	
@@ -25,7 +25,7 @@ rule "Criterio 3"
 	when 
 		usuario: Usuario(administradoraSalud == "EPS002" && administradoraPension != "AFP001" )
 	then
-		usuarioService.agregarMensajeExcepcion("Las personas que se afilien a la administradora EPS002 Sura EPS solo pueden afiliarse a la administradora de pensión AFP001 Protección");		
+		usuarioService.agregarMensajeExcepcion("Las personas que se afilien a la administradora EPS002 Sura EPS solo pueden afiliarse a la administradora de pensión AFP001 Proteccion");		
 	end
 	
 	
